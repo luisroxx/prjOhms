@@ -16,7 +16,6 @@
 module Consumo where
 import Yesod
 import Foundation
-import Front
 import Selects
 import Control.Monad.Logger (runStdoutLoggingT)
 import Control.Applicative

@@ -4,7 +4,6 @@
 module Login where
 import Yesod
 import Foundation
-import Front
 import Control.Monad.Logger (runStdoutLoggingT)
 import Control.Applicative
 import Data.Text

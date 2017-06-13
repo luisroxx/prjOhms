@@ -8,6 +8,8 @@ import Usuario
 import Login
 import Selects
 import Preco
+import Ambiente
+import Consumo
 
 -- Application
 mkYesodDispatch "Sitio" resourcesSitio
