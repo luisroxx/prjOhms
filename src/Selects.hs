@@ -38,3 +38,9 @@ selectPreco = do
         price <- runDB $ selectFirst [PrecoId ==. toSqlKey(0)] []
         valPrice <- return $ fromJust $ fmap (precoQtPreco . entityVal) $ price
         return $ valPrice --RETORNA O QT PRECO
+        
+selectConsumoAmbiente :: AmbienteId -> Handler [Double]
+selectConsumoAmbiente aid = do
+    consumo <- runDB $ selectList [ConsumoAmbienteId ==. aid] []
+    consumoAmbiente <- return $ map (consumoQtConsumo . entityVal) consumo
+    return $ consumoAmbiente --RETORNA UMA LISTA DE CONSUMOS DO AMBIENTE
