@@ -118,4 +118,43 @@ getHomeR = do
                addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
                addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
                addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-               widgeHome HomeR enctype widget "Autorizado"                    
+               widgeHome HomeR enctype widget "Autorizado"
+               
+
+
+postHomeR :: Handler Html
+postHomeR = do
+            ((result, _), _) <- runFormPost formNewUsu
+            case result of
+                FormSuccess (username,password) -> do
+                    temUsu <- runDB $ selectFirst [UsuarioNmUsuario ==. username] []
+                    case temUsu of
+                        Nothing -> do
+                            cid <- runDB $ insert (Casa "default")
+                            user <- runDB $ insert $ criaUser username password cid
+                            defaultLayout $ do
+                                       addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                                       addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                                       addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                                       [whamlet| 
+                                            <div .form-group>
+                                            <h1> #{username} inserido com sucesso!
+                                            <a href=@{LoginR}>
+                                              <button .btn .btn-primary type="submit">Login
+                                    |]
+                        Just _ -> do
+                                defaultLayout $ do
+                                       addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                                       addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                                       addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                                       [whamlet| 
+                                            <div .form-group>
+                                            <h1> Nome de usuário já existe!
+                                            <a href=@{LoginR}>
+                                              <button .btn .btn-primary type="submit">Login
+                                    |]
+                _ -> redirect HomeR
+                
+criaUser :: Text -> Text -> CasaId -> Usuario
+criaUser nm pass cid = Usuario nm pass 0 cid
+                
