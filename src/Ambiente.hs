@@ -44,3 +44,23 @@ getCriarAmbienteR = do
            addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
            addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
            widgetAmbiente listaAmb CriarAmbienteR enctype widget "Ambiente"
+           
+postCriarAmbienteR :: Handler Html
+postCriarAmbienteR = do
+        casaId <- selectCasaId
+        ((res, _), _) <- runFormPost $ formAmb casaId
+        case res of
+                FormSuccess (formAmb) -> do
+                   idx <- runDB $ insert formAmb
+                   defaultLayout $ do
+                        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                        addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                        addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                        [whamlet|
+                            <div .form-group>
+                                <h1>  Ambiente inserido com sucesso! 
+                                    <a href=@{CriarAmbienteR}>
+                                       <button .btn .btn-primary type="submit">Voltar
+
+                        |]
+                _ -> redirect CriarAmbienteR
