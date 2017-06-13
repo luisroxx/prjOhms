@@ -1,17 +1,23 @@
-/cadastro         CadastroR  GET POST
-/listar           ListarR    GET 
-/pessoa/#PessoaId PessoaR    GET POST
-/depto            DeptoR     GET POST
-/static           StaticR    Static getStatic
+/                                   HomeR               GET POST
 
-/                 HomeR      GET
-/teste            TesteR     GET
-/pag1             Pag1R      GET
-/pag2             Pag2R      GET
-/pag3             Pag3R      GET
-/pag4             Pag4R      GET
-/hello            HelloR     GET
+/login                              LoginR              GET POST
+/logout                             LogoutR             POST
 
-/usuario          UsuarioR   GET POST
-/login            LoginR     GET POST
-/logout           LogoutR    POST
+/arduino/consumo                    ConsumoR            POST
+
+/alterar/preco                      PrecoR              GET POST
+
+/autorizado/criar                   CriarAutorizadoR    GET POST
+/usuario/listar                     ListarUsuarioR      GET
+/usuario/deletar/#UsuarioId         ApagarUsuarioR      POST
+/usuario/buscar/#UsuarioId          BuscarUsuarioR      GET
+
+/consumo/deletar/#AmbienteId        ConsumoAmbienteR    POST
+/consumo                            ConsumoCasaR        GET
+
+/ambiente/criar                     CriarAmbienteR      GET POST
+/ambiente/listar                    ListarAmbienteR     GET
+/ambiente/buscar/#AmbienteId        BuscarAmbienteR     GET
+/ambiente/deletar/#AmbienteId       ApagarAmbienteR     POST
+
+/static                             StaticR             Static getStatic
