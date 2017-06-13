@@ -88,3 +88,6 @@ instance RenderMessage Sitio FormMessage where
     
 widgetForm :: Route Sitio -> Enctype -> Widget -> Text -> Widget
 widgetForm x enctype widget y = $(whamletFile "templates/form.hamlet")
+
+widgetAmbiente :: [Entity Ambiente] -> Route Sitio -> Enctype -> Widget -> Text -> Widget
+widgetAmbiente listaAmb x enctype widget y = $(whamletFile "templates/ambiente/new.hamlet")
