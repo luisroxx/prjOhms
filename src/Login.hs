@@ -36,7 +36,29 @@ getLoginR = do
                         Just _ -> redirect CriarAmbienteR
                         
 postLoginR :: Handler Html
-postLoginR = undefined
-
+postLoginR = do
+                ((result, _), _) <- runFormPost formLogin
+                case result of
+                    FormSuccess (username,senha) -> do
+                       temUsu <- runDB $ selectFirst [UsuarioNmUsuario ==. username,UsuarioCdPassword ==. senha] []
+                       case temUsu of
+                           Nothing -> redirect LoginR
+                           Just _ -> do
+                                tipo <- return $ fromMaybe 0 $ fmap (usuarioTpUsuario . entityVal) $ temUsu
+                                case tipo of
+                                    0 -> do
+                                        setSession "_USER" username
+                                        setSession "_ID" "admin"
+                                        defaultLayout [whamlet| Admin autenticado!|]
+                                        redirect ConsumoCasaR
+                                    1 -> do
+                                        setSession "_USER" username
+                                        defaultLayout [whamlet| Usuario autenticado!|]
+                                        redirect ConsumoCasaR
+                    _ -> redirect LoginR
+                    
 postLogoutR :: Handler Html
-postLogoutR = undefined
+postLogoutR = do
+    deleteSession "_USER"
+    deleteSession "_ID"
+    redirect LoginR
