@@ -1,0 +1,38 @@
+<nav .navbar .navbar-default role="navigation">
+    <div .container>
+        <div .row>
+            <div .col-md-3>
+                <div .navbar-header>
+                    <a .navbar-brand href="#">
+                    <button type="button" .navbar-toggle data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span .sr-only>Toggle navigation
+                        <span .icon-bar>
+                        <span.icon-bar>
+                        <span .icon-bar>
+            <div .col-md-9>
+                <div .collapse .navbar-collapse id="bs-example-navbar-collapse-1">
+                    <ul .nav .navbar-nav .menu>
+                        <li>
+                            <a href=@{ConsumoCasaR}>Consumo
+                        <li>
+                            <a href=@{CriarAmbienteR}><span .glyphicon .glyphicon-stats> Ambientes
+                        <li>
+                            <a href=@{CriarAutorizadoR}><span .glyphicon .glyphicon-home> Usuários
+                       
+                    <ul .nav .navbar-nav .navbar-right>
+                        <li>
+                          <form action=@{LogoutR} method=post>
+                            <button .btn .btn-primary type="submit">Logout
+<div .container>
+    <div .col-sm-12>
+        <div .page-header> 
+            <h1 .text-center>Usuário
+        <div .form-group> 
+      <table .table table-hover>
+        <thead>
+          <tr>
+            <th>Nome do usuário
+            <th>Ação
+        <tbody>
+          <tr>
+            <td>#{usuarioNmUsuario usuario}

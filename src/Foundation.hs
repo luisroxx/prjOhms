@@ -106,3 +106,6 @@ widgetVisuAmbiente ambiente casa  consumo = $(whamletFile "templates/ambiente/ed
 
 widgetListarUsuario :: [Entity Usuario] -> Widget
 widgetListarUsuario listaUsu = $(whamletFile "templates/usuario/listar.hamlet")
+
+widgetVisuUsuario :: Usuario -> Widget
+widgetVisuUsuario usuario = $(whamletFile "templates/usuario/edit.hamlet")
