@@ -97,3 +97,6 @@ widgetListarAmbiente listaAmb = $(whamletFile "templates/ambiente/listar.hamlet"
 
 widgetUsuario :: [Entity Usuario] -> Route Sitio -> Enctype -> Widget -> Text -> Widget
 widgetUsuario listaUsu x enctype widget y = $(whamletFile "templates/usuario/new.hamlet")
+
+widgeHome :: Route Sitio -> Enctype -> Widget -> Text -> Widget
+widgeHome x enctype widget y = $(whamletFile "templates/index.hamlet")
