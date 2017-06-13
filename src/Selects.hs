@@ -32,3 +32,9 @@ selectCasaId = do
         temUsu <- runDB $ selectFirst [UsuarioNmUsuario ==. fromJust(username)] []
         casa <- return $ fromJust $ fmap (usuarioCasaId . entityVal) $ temUsu
         return $ casa --RETORNA UM  KEY CASA
+        
+selectPreco :: Handler Double
+selectPreco = do
+        price <- runDB $ selectFirst [PrecoId ==. toSqlKey(0)] []
+        valPrice <- return $ fromJust $ fmap (precoQtPreco . entityVal) $ price
+        return $ valPrice --RETORNA O QT PRECO
