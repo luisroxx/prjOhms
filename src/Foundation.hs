@@ -109,3 +109,6 @@ widgetListarUsuario listaUsu = $(whamletFile "templates/usuario/listar.hamlet")
 
 widgetVisuUsuario :: Usuario -> Widget
 widgetVisuUsuario usuario = $(whamletFile "templates/usuario/edit.hamlet")
+
+widgetVisuConsumo :: Casa -> Double -> Double -> Widget
+widgetVisuConsumo casa preco consumo = $(whamletFile "templates/consumo.hamlet")
