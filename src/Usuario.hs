@@ -104,4 +104,18 @@ postCriarAutorizadoR = do
                                 <a href=@{CriarAutorizadoR}>
                                   <button .btn .btn-primary type="submit">Voltar
                         |]
-                    _ -> redirect CriarAutorizadoR                
+                    _ -> redirect CriarAutorizadoR     
+                    
+formNewUsu :: Form (Text, Text)
+formNewUsu  = renderDivs $ (,) <$> 
+            areq nmUsuarioField "" Nothing <*>
+            areq cdPasswordField "" Nothing        
+                   
+getHomeR :: Handler Html
+getHomeR = do
+            (widget, enctype) <- generateFormPost formNewUsu
+            defaultLayout $ do
+               addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+               addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+               addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+               widgeHome HomeR enctype widget "Autorizado"                    
