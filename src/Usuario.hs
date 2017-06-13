@@ -85,3 +85,23 @@ postApagarUsuarioR uid = do
                         <a href=@{ListarUsuarioR}>
                           <button .btn .btn-primary type="submit">Voltar
                 |]                    
+                
+postCriarAutorizadoR :: Handler Html
+postCriarAutorizadoR = do
+            casaId <- selectCasaId
+            let tpUsuario = 1 
+            ((res, _), _) <- runFormPost $ formUsu casaId tpUsuario
+            case res of
+                    FormSuccess (formUsu) -> do
+                       idx <- runDB $ insert formUsu
+                       defaultLayout $ do
+                           addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                           addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                           addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                           [whamlet| 
+                                <div .form-group>
+                                <h1> Usuário autorizado inserido com sucesso!
+                                <a href=@{CriarAutorizadoR}>
+                                  <button .btn .btn-primary type="submit">Voltar
+                        |]
+                    _ -> redirect CriarAutorizadoR                
