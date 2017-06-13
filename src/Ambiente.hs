@@ -77,3 +77,32 @@ getBuscarAmbienteR aid = do
                            addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
                            addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
                            widgetVisuAmbiente ambiente casa consumo
+                           
+
+postApagarAmbienteR :: AmbienteId -> Handler Html
+postApagarAmbienteR aid = do
+                             temCons <- runDB $ selectFirst [ConsumoAmbienteId ==. aid] []
+                             case temCons of
+                                Nothing -> do
+                                    aid <- runDB $ delete aid
+                                    defaultLayout $ do
+                                       addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                                       addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                                       addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                                       [whamlet| 
+                                            <div .form-group>
+                                            <h1> Ambiente excluído com sucesso!
+                                            <a href=@{ListarAmbienteR}>
+                                              <button .btn .btn-primary type="submit">Voltar
+                                    |]
+                                Just _ -> do
+                                   defaultLayout $ do
+                                       addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                                       addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                                       addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                                       [whamlet| 
+                                            <div .form-group>
+                                            <h1> Impossivel excluir ambiente com consumo!
+                                            <a href=@{ListarAmbienteR}>
+                                              <button .btn .btn-primary type="submit">Voltar
+                                    |]                           
