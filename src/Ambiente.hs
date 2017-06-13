@@ -106,3 +106,12 @@ postApagarAmbienteR aid = do
                                             <a href=@{ListarAmbienteR}>
                                               <button .btn .btn-primary type="submit">Voltar
                                     |]                           
+                                    
+getListarAmbienteR :: Handler Html
+getListarAmbienteR = do
+                        listaAmb <- runDB $ selectList [] [Asc AmbienteNmAmbiente]
+                        defaultLayout $ do 
+                        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                        addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                        addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                        widgetListarAmbiente listaAmb
