@@ -1,9 +1,9 @@
-name:              ayesod
+name:              prjOhms
 version:           0.0.0
 cabal-version:     >= 1.8
 build-type:        Simple
 
-executable         ayesod
+executable         prjOhms
     hs-source-dirs: src
 
     main-is:           ../Main.hs
@@ -44,3 +44,4 @@ executable         ayesod
                    Usuario
                    Login
                    Selects
+                   Preco

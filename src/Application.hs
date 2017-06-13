@@ -7,6 +7,7 @@ import Yesod
 import Usuario
 import Login
 import Selects
+import Preco
 
 -- Application
 mkYesodDispatch "Sitio" resourcesSitio
