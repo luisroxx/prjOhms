@@ -62,3 +62,10 @@ getConsumoCasaR = do
            addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
            addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
            widgetVisuConsumo casa preco consumoCasa
+
+postConsumoAmbienteR :: AmbienteId -> Handler Html
+postConsumoAmbienteR aid = do
+    listaCons <- runDB $ selectList [ConsumoAmbienteId ==. aid] []
+    listaCid <- return $ map (entityKey) listaCons
+    del <- sequence $ map (\cid -> runDB $ delete cid) listaCid
+    redirect ListarAmbienteR
