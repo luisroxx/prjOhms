@@ -44,3 +44,17 @@ selectConsumoAmbiente aid = do
     consumo <- runDB $ selectList [ConsumoAmbienteId ==. aid] []
     consumoAmbiente <- return $ map (consumoQtConsumo . entityVal) consumo
     return $ consumoAmbiente --RETORNA UMA LISTA DE CONSUMOS DO AMBIENTE
+    
+selectConsumoCasa :: Handler Double
+selectConsumoCasa = do
+    cid <- selectCasaId
+    ambientes <- runDB $ selectList [AmbienteCasaId ==. cid] []
+    ambId <- return $ map (entityKey) ambientes
+    consumoAmbientes <- sequence $ map (\val -> runDB $ selectList [ConsumoAmbienteId ==. val] []) ambId
+    consumoCasa <- return $ pegaConsumo consumoAmbientes
+    let somaCons = sum consumoCasa
+    return $ somaCons --RETORNA SOMA DO CONSUMO DOS AMBIENTES DA CASA (DOUBLE)
+    
+pegaConsumo :: [[Entity Consumo]] -> [Double]
+pegaConsumo [] = []
+pegaConsumo (x:xs) = map (consumoQtConsumo . entityVal) x ++ pegaConsumo xs
