@@ -6,29 +6,40 @@ module Foundation where
 import Yesod
 import Yesod.Static
 import Data.Text
+import Data.Time.Calendar
 import Database.Persist.Postgresql
     ( ConnectionPool, SqlBackend, runSqlPool, runMigration )
 
 data Sitio = Sitio {getStatic :: Static, connPool :: ConnectionPool }
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
-Departamento
-   nome Text
-   sigla Text sqltype=varchar(3)
-   deriving Show
+Casa json
+    nmCasa Text
+    deriving Show
 
-Pessoa
-   nome Text
-   idade Int
-   salario Double
-   deptoid DepartamentoId
-   deriving Show
-  
-Usuario
-   nome Text
-   email Text
-   senha Text
-   UniqueEmail email
+Usuario json
+    nmUsuario Text
+    cdPassword Text
+    tpUsuario Int
+    casaId CasaId
+    UniqueEmail nmUsuario
+    
+Ambiente json
+    nmAmbiente Text
+    casaId CasaId
+    deriving Show
+    
+Preco json
+    qtPreco Double
+    deriving Show
+
+Consumo json
+    dtConsumo Day
+    qtConsumo Double
+    precoId PrecoId
+    ambienteId AmbienteId
+    deriving Show
+    UNIQUEConsumo dtConsumo ambienteId
 |]
 
 staticFiles "static"
@@ -46,16 +57,23 @@ instance YesodPersist Sitio where
 
 instance Yesod Sitio where
     authRoute _ = Just LoginR
-    isAuthorized LoginR _ = return Authorized
     isAuthorized HomeR _ = return Authorized
+    isAuthorized LoginR _ = return Authorized
+    isAuthorized ConsumoR _ = return Authorized
+    isAuthorized PrecoR _ = isAdmin
+    isAuthorized CriarAutorizadoR _ = isAdmin
+    isAuthorized CriarAmbienteR _ = isAdmin
     isAuthorized _ _ = isUser
 
---isAdmin = do
---    mu <- lookupSession "_ID"
---    return $ case mu of
---        Nothing -> AuthenticationRequired
---        Just "admin" -> Authorized
---        Just _ -> Unauthorized "Soh o admin acessa aqui!"
+isAdmin = do
+    mi <- lookupSession "_ID"
+    mu <- lookupSession "_USER"
+    return $ case mi of
+        Nothing -> do 
+            case mu of
+              Nothing -> AuthenticationRequired
+              Just _ -> Unauthorized "Soh o admin acessa aqui!"
+        Just "admin" -> Authorized
 
 isUser = do
     mu <- lookupSession "_USER"
@@ -67,6 +85,3 @@ type Form a = Html -> MForm Handler (FormResult a, Widget)
 
 instance RenderMessage Sitio FormMessage where
     renderMessage _ _ = defaultFormMessage
-
-widgetForm :: Route Sitio -> Enctype -> Widget -> Text -> Widget
-widgetForm x enctype widget y = $(whamletFile "templates/form.hamlet")
