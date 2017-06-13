@@ -14,8 +14,39 @@ import Database.Persist.Postgresql
 
 formLogin :: Form (Text, Text)
 formLogin = renderDivs $ (,) <$>
-             areq textField "" Nothing <*>
-             areq passwordField "" Nothing 
+             areq nmUsuarioField "" Nothing <*>
+             areq cdPasswordField "" Nothing 
+             
+             
+nmUsuarioField :: Field Handler Text
+nmUsuarioField = Field
+    { fieldParse = \rawVals _ ->
+                 case rawVals of
+                   [a] -> return $ Right $ Just a
+                   [] -> return $ Right Nothing
+    , fieldView = \idAttr nameAttr otherAttrs eResult isReq ->
+        [whamlet|
+        <div .form-group> 
+            <h4>Email:
+            <input .form-control  placeholder="Insira o email do usuário:" id=#{idAttr}-confirm name=#{nameAttr} *{otherAttrs} type=textField>
+        |]
+    , fieldEnctype = UrlEncoded
+    }
+    
+cdPasswordField :: Field Handler Text
+cdPasswordField = Field
+    { fieldParse = \rawVals _ ->
+                 case rawVals of
+                   [a] -> return $ Right $ Just a
+                   [] -> return $ Right Nothing
+    , fieldView = \idAttr nameAttr otherAttrs eResult isReq ->
+        [whamlet|
+        <div .form-group> 
+            <h4>Senha:
+            <input .form-control  placeholder="Insira a senha do usuário:" id=#{idAttr}-confirm name=#{nameAttr} *{otherAttrs} type=password>
+        |]
+    , fieldEnctype = UrlEncoded
+    }
             
 
 getLoginR :: Handler Html
