@@ -61,3 +61,13 @@ getCriarAutorizadoR = do
                addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
                widgetUsuario listaUsu CriarAutorizadoR enctype widget "Autorizado"
                -- ALTERAR O WIGET
+               
+getListarUsuarioR :: Handler Html
+getListarUsuarioR = do
+                    casaId <- selectCasaId
+                    listaUsu <- runDB $ selectList [UsuarioCasaId ==. casaId] []
+                    defaultLayout $ do 
+                    addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                    addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                    addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                    widgetListarUsuario listaUsu
