@@ -103,3 +103,6 @@ widgeHome x enctype widget y = $(whamletFile "templates/index.hamlet")
 
 widgetVisuAmbiente :: Ambiente -> Casa -> Double -> Widget
 widgetVisuAmbiente ambiente casa  consumo = $(whamletFile "templates/ambiente/edit.hamlet")
+
+widgetListarUsuario :: [Entity Usuario] -> Widget
+widgetListarUsuario listaUsu = $(whamletFile "templates/usuario/listar.hamlet")
