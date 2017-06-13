@@ -71,3 +71,17 @@ getListarUsuarioR = do
                     addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
                     addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
                     widgetListarUsuario listaUsu
+                    
+postApagarUsuarioR :: UsuarioId -> Handler Html
+postApagarUsuarioR uid = do
+                uid <- runDB $ delete uid
+                defaultLayout $ do
+                   addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                   addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                   [whamlet| 
+                        <div .form-group>
+                        <h1> Usuário deletado!
+                        <a href=@{ListarUsuarioR}>
+                          <button .btn .btn-primary type="submit">Voltar
+                |]                    
