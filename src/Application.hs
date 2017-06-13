@@ -5,8 +5,7 @@ module Application where
 import Foundation
 import Yesod
 import Usuario
-import Handlers
-import Front
+import Login
 
 -- Application
 mkYesodDispatch "Sitio" resourcesSitio
